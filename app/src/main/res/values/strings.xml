@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">androidschool_program_course</string>
+    <string name="all_lectors">Все</string>
+    <string-array name="week_spinner_items">
+        <item>По неделям</item>
+        <item>Без недель</item>
+    </string-array>
+    <string name="week_item_string">%1$d неделя</string>
+</resources>
