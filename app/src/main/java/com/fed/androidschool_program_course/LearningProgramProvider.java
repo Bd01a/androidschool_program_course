@@ -20,16 +20,18 @@ import java.util.Set;
 public class LearningProgramProvider {
     private static final String LECTURES_URL = "http://landsovet.ru/learning_program.json";
 
-    Context context;
+    private Context context;
 
     private List<Lecture> mLectures;
 
-    LearningProgramProvider(Context context){
+    public LearningProgramProvider(Context context){
         this.context = context;
     }
 
     public List<Lecture> provideLecture() {
-        downloadLectures();
+        if(mLectures == null) {
+            downloadLectures();
+        }
         return new ArrayList<>(mLectures);
     }
 

@@ -6,4 +6,5 @@
         <item>Без недель</item>
     </string-array>
     <string name="week_item_string">%1$d неделя</string>
+    <string name="subtopics">%1$s /n</string>
 </resources>

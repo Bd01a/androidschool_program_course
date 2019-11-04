@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.fed.androidschool_program_course.fragments.MainFragment;
 import com.fed.androidschool_program_course.models.Lecture;
 
 import java.text.SimpleDateFormat;
@@ -18,17 +19,20 @@ import java.util.List;
 
 public class LearningProgramAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    public static final int DEFAULT_ITEM = 1;
-    public static final int WEEK_ITEM = 2;
+    private static final int DEFAULT_ITEM = 1;
+    private static final int WEEK_ITEM = 2;
 
-    private Context context;
+    private Context mContext;
 
     private List<Lecture> mLecture;
     private List<Object> mLecturesWithWeek;
     private List<Object> mItems;
 
-    LearningProgramAdapter(Context context) {
-        this.context = context;
+    private MainFragment.OnFragmentClickListener mOnFragmentCLickListener;
+
+    public LearningProgramAdapter(Context context, MainFragment.OnFragmentClickListener onFragmentCLickListener) {
+        mContext = context;
+        mOnFragmentCLickListener = onFragmentCLickListener;
     }
 
     public int getPositionToNextLection() {
@@ -81,15 +85,21 @@ public class LearningProgramAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof LectureHolder) {
-            Lecture lecture = (Lecture) mItems.get(position);
+            final Lecture lecture = (Lecture) mItems.get(position);
             SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
             LectureHolder lectureHolder = ((LectureHolder) holder);
             lectureHolder.mNumber.setText(String.valueOf(lecture.getNumber()));
             lectureHolder.mDate.setText(format.format(lecture.getDate()));
             lectureHolder.mTheme.setText(lecture.getTheme());
             lectureHolder.mLector.setText(lecture.getLector());
+            lectureHolder.mItemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnFragmentCLickListener.onClick(lecture);
+                }
+            });
         } else if (holder instanceof WeekHolder) {
-            ((WeekHolder) holder).textView.setText(context.getResources().getString(R.string.week_item_string,
+            ((WeekHolder) holder).textView.setText(mContext.getResources().getString(R.string.week_item_string,
                     (Integer) mItems.get(position)));
         }
     }
@@ -111,9 +121,11 @@ public class LearningProgramAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         private final TextView mDate;
         private final TextView mTheme;
         private final TextView mLector;
+        private final View mItemView;
 
         public LectureHolder(@NonNull View itemView) {
             super(itemView);
+            mItemView = itemView;
             mNumber = itemView.findViewById(R.id.number);
             mDate = itemView.findViewById(R.id.date);
             mTheme = itemView.findViewById(R.id.theme);

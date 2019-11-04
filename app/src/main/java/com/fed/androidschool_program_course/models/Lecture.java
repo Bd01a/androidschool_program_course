@@ -39,7 +39,7 @@ public class Lecture implements Parcelable {
         sWeekNumber++;
     }
 
-    protected Lecture(Parcel in) throws ParseException {
+    private Lecture(Parcel in) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         mNumber = in.readInt();
         mTheme = in.readString();
@@ -85,8 +85,12 @@ public class Lecture implements Parcelable {
         return mLector;
     }
 
-    public List<String> getSubtopics() {
-        return mSubtopics;
+    public String getSubtopics() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String sting:mSubtopics) {
+            stringBuilder.append(sting).append("\n");
+        }
+        return stringBuilder.toString();
     }
 
     @Override
