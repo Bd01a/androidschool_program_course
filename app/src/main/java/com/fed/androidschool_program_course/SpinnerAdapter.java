@@ -9,20 +9,20 @@ import android.widget.TextView;
 import java.util.List;
 
 public class SpinnerAdapter extends BaseAdapter {
-    private final List<String> items;
+    private final List<String> mItems;
 
-    public SpinnerAdapter(List<String> mLectors) {
-        this.items = mLectors;
+    public SpinnerAdapter(List<String> lectors) {
+        mItems = lectors;
     }
 
     @Override
     public int getCount() {
-        return items.size();
+        return mItems.size();
     }
 
     @Override
     public String getItem(int i) {
-        return items.get(i);
+        return mItems.get(i);
     }
 
     @Override

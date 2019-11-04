@@ -1,7 +1,6 @@
 package com.fed.androidschool_program_course;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,38 +19,38 @@ import java.util.List;
 public class LearningProgramAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public static final int DEFAULT_ITEM = 1;
-    public static final int WEEK_ITEM=2;
+    public static final int WEEK_ITEM = 2;
 
     private Context context;
 
-    private List<Object> mLecture;
-    private  List<Object> mLecturesWithWeek;
-    private  List<Object> mItems;
+    private List<Lecture> mLecture;
+    private List<Object> mLecturesWithWeek;
+    private List<Object> mItems;
 
-    LearningProgramAdapter(Context context){
+    LearningProgramAdapter(Context context) {
         this.context = context;
     }
 
-    public int getPositionToNextLection(){
+    public int getPositionToNextLection() {
         Date currentDate = new Date();
-        for(int i=0; i<mItems.size(); i++){
-            if(mItems.get(i) instanceof Lecture){
-                if(((Lecture) mItems.get(i)).getmDate().after(currentDate)){
+        for (int i = 0; i < mItems.size(); i++) {
+            if (mItems.get(i) instanceof Lecture) {
+                if (((Lecture) mItems.get(i)).getDate().after(currentDate)) {
                     return i;
                 }
             }
         }
-        return mItems.size()-1;
+        return mItems.size() - 1;
     }
 
 
-    public void setmLecture(List<Lecture> lectures) {
+    public void setLecture(List<Lecture> lectures) {
         mLecture = new ArrayList<>();
         mLecturesWithWeek = new ArrayList<>();
-        int week=0;
-        for(Lecture lecture: lectures){
-            if(lecture.getmWeek()>week){
-                week=lecture.getmWeek();
+        int week = 0;
+        for (Lecture lecture : lectures) {
+            if (lecture.getWeek() > week) {
+                week = lecture.getWeek();
                 mLecturesWithWeek.add(week);
             }
             mLecturesWithWeek.add(lecture);
@@ -61,62 +60,52 @@ public class LearningProgramAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         notifyDataSetChanged();
     }
 
-    public void setWeekVisibility(boolean visibility){
-        if(visibility){
-            mItems = mLecturesWithWeek;
-        }
-        else {
-            mItems = mLecture;
-        }
+    public void setWeekVisibility(boolean visibility) {
+        mItems = new ArrayList<>(visibility ? mLecturesWithWeek : mLecture);
         notifyDataSetChanged();
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if(viewType==DEFAULT_ITEM) {
+        if (viewType == DEFAULT_ITEM) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_lecture, parent, false);
             return new LectureHolder(view);
-        }
-        else {
+        } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.week_layout, parent, false);
             return new WeekHolder(view);
         }
+
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if(holder instanceof LectureHolder) {
-            Lecture lecture = (Lecture)mItems.get(position);
+        if (holder instanceof LectureHolder) {
+            Lecture lecture = (Lecture) mItems.get(position);
             SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-            ((LectureHolder)holder).mNumber.setText(lecture.getmNumber());
-            ((LectureHolder)holder).mDate.setText(format.format(lecture.getmDate()));
-            ((LectureHolder)holder).mTheme.setText(lecture.getmTheme());
-            ((LectureHolder)holder).mLector.setText(lecture.getmLector());
-        }
-        else if(holder instanceof WeekHolder){
+            LectureHolder lectureHolder = ((LectureHolder) holder);
+            lectureHolder.mNumber.setText(String.valueOf(lecture.getNumber()));
+            lectureHolder.mDate.setText(format.format(lecture.getDate()));
+            lectureHolder.mTheme.setText(lecture.getTheme());
+            lectureHolder.mLector.setText(lecture.getLector());
+        } else if (holder instanceof WeekHolder) {
             ((WeekHolder) holder).textView.setText(context.getResources().getString(R.string.week_item_string,
-                    (Integer)mItems.get(position)));
+                    (Integer) mItems.get(position)));
         }
     }
 
 
     @Override
     public int getItemCount() {
-        return mItems == null ? 0: mItems.size();
+        return mItems == null ? 0 : mItems.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        if(mItems.get(position) instanceof Lecture){
-            return DEFAULT_ITEM;
-        }
-        else {
-            return WEEK_ITEM;
-        }
+        return mItems.get(position) instanceof Lecture ? DEFAULT_ITEM : WEEK_ITEM;
     }
 
-    static class LectureHolder extends RecyclerView.ViewHolder{
+    static class LectureHolder extends RecyclerView.ViewHolder {
 
         private final TextView mNumber;
         private final TextView mDate;
@@ -131,7 +120,8 @@ public class LearningProgramAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             mLector = itemView.findViewById(R.id.lector);
         }
     }
-    static class WeekHolder extends RecyclerView.ViewHolder{
+
+    static class WeekHolder extends RecyclerView.ViewHolder {
 
         private final TextView textView;
 
