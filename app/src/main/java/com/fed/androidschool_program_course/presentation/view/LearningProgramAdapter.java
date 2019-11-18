@@ -1,4 +1,4 @@
-package com.fed.androidschool_program_course;
+package com.fed.androidschool_program_course.presentation.view;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,8 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.fed.androidschool_program_course.fragments.MainFragment;
-import com.fed.androidschool_program_course.models.Lecture;
+import com.fed.androidschool_program_course.R;
+import com.fed.androidschool_program_course.model.Lecture;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.fed.androidschool_program_course.fragments;
+package com.fed.androidschool_program_course.presentation.view;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.fed.androidschool_program_course.R;
-import com.fed.androidschool_program_course.models.Lecture;
+import com.fed.androidschool_program_course.model.Lecture;
 
 import java.text.SimpleDateFormat;
 

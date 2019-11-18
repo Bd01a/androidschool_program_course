@@ -1,4 +1,4 @@
-package com.fed.androidschool_program_course.models;
+package com.fed.androidschool_program_course.model;
 
 
 import android.os.Parcel;

@@ -1,4 +1,4 @@
-package com.fed.androidschool_program_course;
+package com.fed.androidschool_program_course.presentation.view;
 
 import android.view.LayoutInflater;
 import android.view.View;
