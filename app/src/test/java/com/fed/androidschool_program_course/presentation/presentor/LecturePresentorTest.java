@@ -18,16 +18,17 @@ public class LecturePresentorTest {
 
     private LecturePresentor mLecturePresentor;
     private LearningProgramProvider mLearningProgramProvider;
+    private ILectureView mLectureView;
 
     @Before
     public void setUp() throws Exception {
         mLearningProgramProvider = Mockito.mock(LearningProgramProvider.class);
-        ILectureView lectureView = Mockito.mock(ILectureView.class);
-        mLecturePresentor = new LecturePresentor(lectureView, mLearningProgramProvider);
+        mLectureView = Mockito.mock(ILectureView.class);
+        mLecturePresentor = new LecturePresentor(mLectureView, mLearningProgramProvider);
     }
 
     @Test
-    public void provideLectures() {
+    public void provideLecturesTest() {
         List<String> strings1 = new ArrayList<>();
         strings1.add("One1");
         strings1.add("Two1");
@@ -39,22 +40,19 @@ public class LecturePresentorTest {
         List<String> strings3 = new ArrayList<>();
         strings3.add("One3");
         strings3.add("Two3");
+        List<Lecture> lectures = new ArrayList<>();
 
         try {
-
-
-            List<Lecture> lectures = Arrays.asList(
+            lectures = Arrays.asList(
                     new Lecture(1, "21.01.1997", "them_one", "Lector_one", strings1),
                     new Lecture(2, "21.01.1977", "them_one", "Lector one", strings2),
                     new Lecture(3, "21.01.1947", "them_one", "Lector one", strings3));
-
-            Mockito.when(mLearningProgramProvider.provideLecture()).thenReturn(lectures);
-            assertEquals(mLecturePresentor.provideLecture(), lectures);
-
         } catch (Exception e) {
             e.printStackTrace();
 
         }
+        Mockito.when(mLearningProgramProvider.provideLecture()).thenReturn(lectures);
+        assertEquals(mLecturePresentor.provideLecture(), lectures);
 
     }
 
@@ -70,5 +68,20 @@ public class LecturePresentorTest {
         assertEquals(mLecturePresentor.provideLectors(), strings);
     }
 
+    @Test
+    public void detachViewTest() {
+        mLecturePresentor.detachView();
+        mLecturePresentor.loadData();
+        Mockito.verify(mLectureView, Mockito.times(0)).showProgress();
+
+    }
+
+    @Test
+    public void loadDataTest() {
+        mLecturePresentor.loadData();
+        Mockito.verify(mLectureView).showProgress();
+        Mockito.verify(mLearningProgramProvider).loadLectures((LearningProgramProvider.OnLoadingFinishedListening) Mockito.any());
+
+    }
 
 }

@@ -19,6 +19,7 @@ public class LecturePresentor {
         mLearningProgramProvider = learningProgramProvider;
     }
 
+
     public void loadData() {
         if (mLectureView.get() != null) {
             mLectureView.get().showProgress();
